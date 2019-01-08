@@ -1,3 +1,5 @@
+Image used in cronjob aws-registry-credential-cron in FPS k8s infrastructure
+
 The Docker Image contains the aws-cli and kubectl. It is used to update the AWS ECR credentials periodically in a kubernetes cluster.
 
 # Setup
