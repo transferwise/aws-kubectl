@@ -22,6 +22,12 @@ task buildDocker(type: Docker) {
     tagVersion = generateVersion(version)
     tagVersions = [ generateVersion(version), isMasterBranch()? 'latest' : 'SNAPSHOT' ]
     registry 'arti.tw.ee/docker-local/gbp-aws-kubectl'
+    doFirst {
+        copy {
+            from './run.sh'
+            into stageDir
+        }
+    }
 }
 
 slack {
