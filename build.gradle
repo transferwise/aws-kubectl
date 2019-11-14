@@ -22,6 +22,8 @@ task buildDocker(type: Docker) {
     tagVersion = generateVersion(version)
     tagVersions = [ generateVersion(version), isMasterBranch()? 'latest' : 'SNAPSHOT' ]
     registry 'arti.tw.ee/docker-local/gbp-aws-kubectl'
+    apiUsername System.getenv('DEPLOY_REGISTRY_USERNAME')
+    apiPassword System.getenv('DEPLOY_REGISTRY_PASSWORD')
     doFirst {
         copy {
             from './run.sh'
