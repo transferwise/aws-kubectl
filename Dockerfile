@@ -1,5 +1,5 @@
 FROM python:alpine
-MAINTAINER Mike Petersen <mike@odania-it.de>
+MAINTAINER Dmitri Savustjan <dmitri.savustjan@transferwise.com>
 
 RUN apk --no-cache add curl
 ADD run.sh /run.sh

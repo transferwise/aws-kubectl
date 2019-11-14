@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'http://arti.tw.ee/artifactory/libs-release-local/'}
+    }
+    dependencies {
+        classpath 'ee.tw:gradle-docker:1.6'
+    }
+}
+
+plugins {
+    id "net.madeng.slack" version "0.0.20"
+}
+
+apply plugin: 'docker'
+
+task buildDocker(type: Docker) {
+    push = true
+    applicationName = 'gbp-aws-kubectl'
+    dockerfile = file('Dockerfile')
+    tagVersion = generateVersion(version)
+    tagVersions = [ generateVersion(version), isMasterBranch()? 'latest' : 'SNAPSHOT' ]
+    registry 'arti.tw.ee/docker-local/gbp-aws-kubectl'
+}
+
+slack {
+    webhookUrl 'https://hooks.slack.com/services/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'
+    message {
+        text = "Uploaded gbp-aws-kubectl image in Artifactory version ${generateVersion(version)}"
+        attachment {
+            color = "good"
+        }
+    }
+}
+
+static String generateVersion(def version) {
+    def commitHash = 'git rev-parse --short HEAD'.execute().text.trim()
+    isMasterBranch()? version : "$version-$commitHash-SNAPSHOT"
+}
+
+static boolean isMasterBranch() {
+    def branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    branchName == 'master'
+}
+

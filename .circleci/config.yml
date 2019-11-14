@@ -1,0 +1,24 @@
+references:
+  deployment_container: &deployment_container
+    docker:
+      - image: circleci/openjdk:8
+
+jobs:
+  publish:
+    <<: *deployment_container
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Build and deploy docker image
+          command: ./gradlew buildDocker publishToSlack --console=plain --no-daemon
+
+workflows:
+  version: 2
+  publish:
+    jobs:
+      - publish_artifact:
+          context: artifactory-deploy
+          filters:
+            branches:
+              only: master
