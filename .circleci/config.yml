@@ -6,15 +6,17 @@ references:
 jobs:
   publish:
     <<: *deployment_container
+    working_directory: ~/aws-kubectl
     resource_class: small
     steps:
       - checkout
-      - persist_to_workspace:
+      - - persist_to_workspace:
             root: .
-            paths: '*'
+            paths:
+              - '*'
       - setup_remote_docker
-      - attach_workspace
-          at: ~/
+      - attach_workspace:
+          at: ~/aws-kubectl
       - run:
           name: Upload docker image
           command: k8s-deployment docker-build docker-push
