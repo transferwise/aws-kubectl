@@ -17,7 +17,7 @@ workflows:
   version: 2
   publish:
     jobs:
-      - publish_artifact:
+      - publish:
           context: artifactory-deploy
           filters:
             branches:
