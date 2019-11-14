@@ -19,7 +19,7 @@ workflows:
   publish:
     jobs:
       - publish:
-          context: artifactory-deploy
+          context: artifactory-deploy-docker
           filters:
             branches:
               only: master
