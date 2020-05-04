@@ -33,7 +33,7 @@ task buildDocker(type: Docker) {
 }
 
 slack {
-    webhookUrl 'https://hooks.slack.com/services/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'
+    webhookUrl System.getenv('SLACK_URI')
     message {
         text = "Uploaded gbp-aws-kubectl image in Artifactory version ${generateVersion(version)}"
         attachment {
